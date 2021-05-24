@@ -70,7 +70,7 @@ const UserPage = (props: UserProps) => {
                     >
                         <DialogTitle id="alert-dialog-slide-title">{"Create new Complaint"}</DialogTitle>
                         <DialogContent>
-                            <CreateComplaint id={props.id} user={props.user}/>
+                            <CreateComplaint id={props.id} user={props.user} setOpen={setOpen}/>
                         </DialogContent>
                     </Dialog>
                 </div>

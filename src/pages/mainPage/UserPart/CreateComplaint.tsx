@@ -1,66 +1,116 @@
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
+import { postComplaint } from '../../../api/user/postComplaint';
 import { UserProps } from '../../UserPage';
 
 const useStyles = makeStyles({
-    container: {
-        marginTop: '1em',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
+    form: {
+        display: "flex",
+        flexDirection:"column",
+        justifyContent:"space-evenly"
     },
-    paper: {
-        padding: '1em',
-        margin: '1em',
-        alignItems: 'center',
-        justifyContent: 'center',
+    buttons: {
+        display: "flex",
+        justifyContent: "flex-end"
     },
-    box: {
-        margin: '1em',
-    },
-    subheader: {
-        padding: '0.25em',
-        paddingLeft: '0.5em',
-    },
+    margins:{
+        margin:"0.5em"
+    }
 });
 const categories = [
         {name:'Policja'},
         {name:'Straż Miejska'}
 ];
-
-const CreateComplaint = (props: UserProps) => {
+interface CreateComplaintProps extends UserProps {
+    setOpen: (value: React.SetStateAction<boolean>) => void;  
+}
+const CreateComplaint = (props: CreateComplaintProps) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [note, setNote] = useState<string>('');
-
+    const [category, setCategory] = useState<string>('');
+    const sendClick = (e: any) => {
+        e.preventDefault();
+        if(category.length < 2)
+        {
+            enqueueSnackbar("Category cannot be null", { variant: "info" })
+            return
+        }
+         postComplaint({
+             SenderId: props.id,
+             TargetFirstName: firstName,
+             TargetLastName: lastName,
+             Note: note,
+             Category: category
+         }).then((res) => {
+            if (res.isError) {
+                enqueueSnackbar("Could not send", { variant: "error" });
+            } else {
+                enqueueSnackbar("Sent", { variant: "success" });
+                props.setOpen(false)
+            }
+          });
+        };  
     return (
-        <>
-        <TextField id="outlined-basic" label="Target First Name" variant="outlined" required onChange={(event: any) => setFirstName(event.target.value)}/>
-        <TextField id="outlined-basic" label="Target Last Name" variant="outlined" required onChange={(event: any) => setLastName(event.target.value)}/>
+        <form onSubmit={sendClick} className={classes.form}>
+        <TextField 
+            className={classes.margins} 
+            id="fname" 
+            label="Target First Name" 
+            variant="outlined" 
+            required 
+            onChange={(event: any) => setFirstName(event.target.value)}/>
+        <TextField 
+            className={classes.margins} 
+            id="lname" 
+            label="Target Last Name" 
+            variant="outlined" 
+            required 
+            onChange={(event: any) => setLastName(event.target.value)}/>
         <Autocomplete
+            className={classes.margins} 
             id="category"
+            aria-required
             options={categories}
             getOptionLabel={(option) => option.name}
             style={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Category" variant="outlined" />}
+            onChange={(object, values) => setCategory(values?.name || '')}
+            renderInput={(params) => <TextField {...params} label="Category" variant="outlined" 
+            />}
         />
         <TextField
             type="text"
             label="Note"
             variant="filled"
-            id="email_text_field"
+            id="note"
             rows="5"
+            className={classes.margins} 
             defaultValue={note}
             multiline
             onChange={(event) => setNote(event.target.value)}
         />
-        </>
-    )
+        <div className={classes.buttons}>
+        <Button className={classes.margins} 
+            size="small" 
+            variant="outlined" 
+            color="secondary"
+            onClick={()=> props.setOpen(false)}
+            >Cancel</Button>
+        <Button className={classes.margins} 
+            size="small" 
+            variant="outlined" 
+            color="primary"
+            type="submit"
+            >Send</Button>
+        </div>
+        </form>
+            )
 }
 
 export default CreateComplaint;
