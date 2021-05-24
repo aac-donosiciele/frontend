@@ -1,11 +1,12 @@
-import { Button, Typography } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getComplaints } from '../api/user/getComplaints';
 import Complaint from '../models/complaint';
 import User from '../models/user';
-import ComplaintTable from './mainPage/UserPart/ComplaintsList';
+import ComplaintTable, { Transition } from './mainPage/UserPart/ComplaintsList';
+import CreateComplaint from './mainPage/UserPart/CreateComplaint';
 
 const useStyles = makeStyles({
     container: {
@@ -37,6 +38,7 @@ const UserPage = (props: UserProps) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const [sentComplaints, setSentComplaints] = useState<Complaint[]>([]);
+    const [open, setOpen] = useState<boolean>(false);
     useEffect(() => {
         getComplaints(props.id).then((res) => {
           if (res.isError) {
@@ -51,14 +53,26 @@ const UserPage = (props: UserProps) => {
         <>
             <div className={classes.container}>
                 <div>
-                    <Button color="primary" size="large">
+                    <Button color="primary" size="large" onClick={() => setOpen(prev => !prev)}>
                         Send Complaint
                     </Button>
                     <Typography variant='h5' className={classes.subheader}>
                         Sent complaints:
                     </Typography>
                     <ComplaintTable setComplaints={setSentComplaints} complaints={sentComplaints}/>
-
+                    <Dialog
+                        open={open}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={()=> setOpen(prev => !prev)}
+                        aria-labelledby="alert-dialog-slide-title"
+                        aria-describedby="alert-dialog-slide-description"
+                    >
+                        <DialogTitle id="alert-dialog-slide-title">{"Create new Complaint"}</DialogTitle>
+                        <DialogContent>
+                            <CreateComplaint id={props.id} user={props.user}/>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </div>
         </>
