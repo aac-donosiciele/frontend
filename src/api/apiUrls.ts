@@ -1,2 +1,2 @@
-export const bikes: string = "bikes/";
+export const userComplaints: string = "user/complaints";
 export const stations: string = "stations/";

@@ -1,7 +1,10 @@
 import { Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from 'react';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { getComplaints } from '../api/user/getComplaints';
 import Complaint from '../models/complaint';
+import User from '../models/user';
 import ComplaintTable from './mainPage/UserPart/ComplaintsList';
 
 const useStyles = makeStyles({
@@ -25,16 +28,31 @@ const useStyles = makeStyles({
         paddingLeft: '0.5em',
     },
 });
+export interface UserProps {
+    id: string,
+    user: User
+}
 
-const UserPage = () => {
+const UserPage = (props: UserProps) => {
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
     const [sentComplaints, setSentComplaints] = useState<Complaint[]>([]);
-    return (
+    useEffect(() => {
+        getComplaints(props.id).then((res) => {
+          if (res.isError) {
+            enqueueSnackbar("Could not get all malfunctions", { variant: "error" });
+          } else {
+            setSentComplaints(res.data || []);
+          }
+        });
+      }, [enqueueSnackbar, props.id]);  
+
+      return (
         <>
             <div className={classes.container}>
                 <div>
                     <Button color="primary" size="large">
-                        
+                        Send Complaint
                     </Button>
                     <Typography variant='h5' className={classes.subheader}>
                         Sent complaints:

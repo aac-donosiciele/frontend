@@ -1,5 +1,5 @@
-import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import UserPage from '../UserPage';
 
 const useStyles = makeStyles({
     container: {
@@ -29,14 +29,7 @@ const MainPage = () => {
     return (
         <>
             <div className={classes.container}>
-                <div>
-                    <Typography variant='h5' className={classes.subheader}>
-                        Sended complaints:
-                    </Typography>
-                    <Typography variant='h5' className={classes.subheader}>
-                        Available stations:
-                    </Typography>
-                </div>
+                <UserPage id={"test"} user={{Id:"test", IsVerified:false}}/>
             </div>
         </>
     )

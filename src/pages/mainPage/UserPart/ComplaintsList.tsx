@@ -69,7 +69,7 @@ export interface ComplaintTableProps {
     }
 
     const cancelComplaint = (id: string) => {
-
+        enqueueSnackbar("heheh");
     }
 
     return ( props.complaints.length > 0 ? 
