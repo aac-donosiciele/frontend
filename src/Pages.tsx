@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import Topbar from "./layout/Topbar";
 import MainPage from "./pages/mainPage/MainPage";
+import OfficialPage from "./pages/mainPage/OfficialPart/OfficialPage";
 
 const Pages = () => {
 
@@ -12,7 +13,8 @@ const Pages = () => {
         <BrowserRouter>            
             <Topbar />
             <Switch>
-                <Route exact path="/" component={() => <MainPage />} />                
+                <Route exact path="/" component={() => <MainPage />} />
+                <Route exact path="/official" component={() => <OfficialPage />} />
             </Switch>
         </BrowserRouter>
     )
