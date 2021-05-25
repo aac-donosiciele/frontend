@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import UserPage from '../UserPage';
+import UserPage from './UserPage';
 
 const useStyles = makeStyles({
     container: {

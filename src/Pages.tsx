@@ -4,7 +4,7 @@ import {
     Switch
 } from "react-router-dom";
 import Topbar from "./layout/Topbar";
-import MainPage from "./pages/mainPage/MainPage";
+import MainPage from "./pages/MainPage";
 import OfficialPage from "./pages/mainPage/OfficialPart/OfficialPage";
 
 const Pages = () => {

@@ -1,6 +1,6 @@
 export interface CreateComplaint {
     SenderId: string,
-    Category: string,
+    Category: number,
     TargetFirstName: string,
     TargetLastName: string,
     Note: string

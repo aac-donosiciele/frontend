@@ -40,7 +40,7 @@ const Topbar = () => {
                 <Toolbar className={classes.toolbar}>
                     <Typography variant="h6" display={"inline"} >
                         <Link to={"/"} className={classes.logo} >
-                            Bikes
+                            Donos
                         </Link>
                     </Typography>
                 </Toolbar>

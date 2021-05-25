@@ -3,8 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getCategories } from '../../../api/user/getCategories';
 import { postComplaint } from '../../../api/user/postComplaint';
+import { Category } from '../../../models/category';
 import { UserProps } from '../../UserPage';
 
 const useStyles = makeStyles({
@@ -21,10 +23,7 @@ const useStyles = makeStyles({
         margin:"0.5em"
     }
 });
-const categories = [
-        {name:'Policja'},
-        {name:'Straż Miejska'}
-];
+
 interface CreateComplaintProps extends UserProps {
     setOpen: (value: React.SetStateAction<boolean>) => void;  
 }
@@ -34,13 +33,25 @@ const CreateComplaint = (props: CreateComplaintProps) => {
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [note, setNote] = useState<string>('');
-    const [category, setCategory] = useState<string>('');
+    const [category, setCategory] = useState<number>(-1);
+    const [categories, setCategories] = useState<Category[]>([]);
+    
+    useEffect(() => {
+        getCategories().then((res) => {
+          if (res.isError) {
+            enqueueSnackbar("Could not get all malfunctions", { variant: "error" });
+          } else {
+            setCategories(res.data || []);
+          }
+        });
+    }, [enqueueSnackbar]);  
+
     const sendClick = (e: any) => {
         e.preventDefault();
-        if(category.length < 2)
+        if(category < 0)
         {
             enqueueSnackbar("Category cannot be null", { variant: "info" })
-            return
+            return;
         }
          postComplaint({
              SenderId: props.id,
@@ -78,9 +89,9 @@ const CreateComplaint = (props: CreateComplaintProps) => {
             id="category"
             aria-required
             options={categories}
-            getOptionLabel={(option) => option.name}
+            getOptionLabel={(option) => option.title}
             style={{ width: 300 }}
-            onChange={(object, values) => setCategory(values?.name || '')}
+            onChange={(object, values) => setCategory(values?.id || -1)}
             renderInput={(params) => <TextField {...params} label="Category" variant="outlined" 
             />}
         />
