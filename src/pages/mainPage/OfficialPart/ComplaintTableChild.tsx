@@ -6,6 +6,8 @@ import {
 import { Theme } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
+import { getDetailedComplaint } from "../../../api/official/getDetailedComplaint";
+import { DetailedComplaint } from "../../../models/detailedComplaint";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -46,7 +48,7 @@ const ComplaintTableChild = (props: ComplaintTableChildProps) => {
     const {enqueueSnackbar} = useSnackbar();
     const [detailedComplaint, setDetailedComplaint ] = useState<DetailedComplaint>();
     useEffect(() => {
-        getComplaintDetails(props.complaintId).then((response) => {
+        getDetailedComplaint(props.complaintId).then((response) => {
             if (response.isError) {
                 enqueueSnackbar("Could not get station datails", {variant: "error"});
             } else {
@@ -62,11 +64,8 @@ const ComplaintTableChild = (props: ComplaintTableChildProps) => {
             </Typography>
         </div>
         <div className={classes.information}>
-            <div>Status: {station?.status}</div>
-            <div>Active bikes: {station?.activeBikesCount}</div>
-            <div>Name: {station?.name}</div>
-            <div>Bike limit: {station?.bikesLimit || 10}</div>
-
+            <div>Category: {detailedComplaint?.Category}</div>
+            <div>Note: {detailedComplaint?.Note}</div>
         </div>
         <div>
             <Typography variant="subtitle1" gutterBottom>
