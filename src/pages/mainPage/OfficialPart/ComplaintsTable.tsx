@@ -17,6 +17,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
+import { finishedComplaint } from "../../../api/official/postOfficialComplaint";
 import Complaint from "../../../models/complaint";
 import ComplaintTableChild from "./ComplaintTableChild";
 
@@ -56,7 +57,13 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
     const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState<boolean[]>([]);
     const handleFinished = (id: string) => {
-
+        finishedComplaint().then((res) => {
+            if (res.isError) {
+              enqueueSnackbar("Could not get all malfunctions", { variant: "error" });
+            } else {
+              setSentComplaints(res.data || []);
+            }
+          });
     };
 
     const handleApprove = (id: string) => {
