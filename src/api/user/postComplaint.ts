@@ -5,7 +5,7 @@ import { handleResponse, handleError, IApiResponse } from "../apiUtils";
 
 export const postComplaint = async (complaint: CreateComplaint): Promise<IApiResponse<Http2ServerResponse>> => {
 
-    let url = process.env.REACT_APP_BACKEND_URL + userComplaints+"/";
+    let url = process.env.REACT_APP_BACKEND_URL + userComplaints;
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "POST",

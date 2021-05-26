@@ -55,15 +55,15 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState<boolean[]>([]);
-    const handleDelete = (id: string) => {
+    const handleFinished = (id: string) => {
 
     };
 
-    const handleBlock = (id: string) => {
+    const handleApprove = (id: string) => {
 
     };
 
-    const handleUnblock = (id: string) => {
+    const handleDeny = (id: string) => {
 
     };
     const handleClickOpen = (index: number) => {
@@ -110,21 +110,21 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                         <TableCell align="right" colSpan={2}>
                             {complaint.Status === "active" ?
                                 <div>
-                                <Button className={classes.blockButton} onClick={() => handleBlock(complaint.Id)}>
+                                <Button className={classes.blockButton} onClick={() => handleApprove(complaint.Id)}>
                                                                         Accept
                                 </Button>
-                                <Button className={classes.unblockButton} onClick={() => handleUnblock(complaint.Id)}>
+                                <Button className={classes.unblockButton} onClick={() => handleDeny(complaint.Id)}>
                                     Deny
                                 </Button>
                                 </div>
                                 :
-                                <Button className={classes.unblockButton} onClick={() => handleUnblock(complaint.Id)}>
+                                <Button className={classes.unblockButton} onClick={() => handleFinished(complaint.Id)}>
                                     Mark as finished
                                 </Button>}
                         </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
                             <Collapse in={open[index]} timeout="auto" unmountOnExit>
                                 <Box margin={1} className={classes.child}>
                                     <ComplaintTableChild complaintId={complaint.Id} />

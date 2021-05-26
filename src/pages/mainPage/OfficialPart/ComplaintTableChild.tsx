@@ -8,6 +8,7 @@ import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { getDetailedComplaint } from "../../../api/official/getDetailedComplaint";
 import { DetailedComplaint } from "../../../models/detailedComplaint";
+import ComplaintHistoryTable from "./ComplaintHistoryTable";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -50,7 +51,7 @@ const ComplaintTableChild = (props: ComplaintTableChildProps) => {
     useEffect(() => {
         getDetailedComplaint(props.complaintId).then((response) => {
             if (response.isError) {
-                enqueueSnackbar("Could not get station datails", {variant: "error"});
+                enqueueSnackbar("Could not get complaint datails", {variant: "error"});
             } else {
                 setDetailedComplaint(response.data);
             }
@@ -71,6 +72,7 @@ const ComplaintTableChild = (props: ComplaintTableChildProps) => {
             <Typography variant="subtitle1" gutterBottom>
             Complaint history:
             </Typography>
+            <ComplaintHistoryTable complaints={detailedComplaint?.history || []} />
         </div>
     </React.Fragment>);
 };
