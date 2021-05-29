@@ -59,7 +59,7 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
     const handleFinished = (id: string) => {
         finishedComplaint(id).then((res) => {
             if (res.isError) {
-              enqueueSnackbar("Could not get all malfunctions", { variant: "error" });
+              enqueueSnackbar("Could not get all complaints", { variant: "error" });
             } else {
                 if(res.responseCode==204)
                     props.setComplaints(prev => {

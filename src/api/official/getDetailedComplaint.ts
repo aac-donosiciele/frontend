@@ -5,7 +5,7 @@ import { getToken } from "../login/token";
 
 export const getDetailedComplaint = async (id: string): Promise<IApiResponse<DetailedComplaint>> => {
 
-    let url = process.env.REACT_APP_BACKEND_URL + officialDetailedComplaint;
+    let url = process.env.REACT_APP_BACKEND_URL + officialDetailedComplaint+id;
     type T = IApiResponse<DetailedComplaint>;
     return fetch(url, {
         method: "GET",

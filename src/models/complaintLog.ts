@@ -3,5 +3,5 @@ export interface ComplaintLog {
     OfficialId: string,
     OffiacialName: string,
     ComplaintId: string,
-    Status: string // albo number to do
+    Status: string
 }
