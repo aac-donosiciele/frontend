@@ -1,5 +1,5 @@
 export interface ComplaintLog {
-    UpdateDate: Date,
+    UpdateDate: string,
     OfficialId: string,
     OffiacialName: string,
     ComplaintId: string,

@@ -54,7 +54,7 @@ const CreateComplaint = (props: CreateComplaintProps) => {
             return;
         }
          postComplaint({
-             SenderId: props.id,
+             SenderId: props.user?.Id || "",
              TargetFirstName: firstName,
              TargetLastName: lastName,
              Note: note,

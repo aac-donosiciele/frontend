@@ -57,11 +57,20 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
     const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState<boolean[]>([]);
     const handleFinished = (id: string) => {
-        finishedComplaint().then((res) => {
+        finishedComplaint(id).then((res) => {
             if (res.isError) {
               enqueueSnackbar("Could not get all malfunctions", { variant: "error" });
             } else {
-              setSentComplaints(res.data || []);
+                if(res.responseCode==204)
+                    props.setComplaints(prev => {
+                        let tmp = [...prev];
+                        tmp = tmp.map(x => {
+                            if(x.Id===id)
+                                x.Status = 'finished';
+                            return x;
+                        })
+                        return tmp;
+                    });
             }
           });
     };

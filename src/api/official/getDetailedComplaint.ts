@@ -1,6 +1,7 @@
 import { DetailedComplaint } from "../../models/detailedComplaint";
 import { officialDetailedComplaint } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
+import { getToken } from "../login/token";
 
 export const getDetailedComplaint = async (id: string): Promise<IApiResponse<DetailedComplaint>> => {
 
@@ -11,7 +12,7 @@ export const getDetailedComplaint = async (id: string): Promise<IApiResponse<Det
         headers: new Headers({
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'token zmienic',
+            'Authorization': getToken(),
         }),
     }).then<T>(handleResponse).catch<T>(handleError);
 }

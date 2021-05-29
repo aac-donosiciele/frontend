@@ -3,7 +3,7 @@ export default interface Complaint {
     Category: string,
     TargetFirstName: string,
     TargetLastName: string,
-    SendDate: Date,
+    SendDate: string,
     Note: string,
     Status: string
 }
