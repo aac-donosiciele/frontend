@@ -22,7 +22,7 @@ export interface PropsUser {
 
 const Pages = () => {
     const {enqueueSnackbar} = useSnackbar();
-    const [userM, setUserM] = useState<User>({Id:'none', IsVerified:true})
+    const [userM, setUserM] = useState<User>({id:'none', isVerified:true})
     const [user, setUser] = useState<AppUser | undefined>({
         token: getToken(),
         userName: getUserName(),
@@ -60,8 +60,10 @@ const Pages = () => {
             console.log(res.data);
 
           } else {
-            setUserM(res.data || {Id:'none', IsVerified:true});
+            setUserM(res.data || {id:'none', isVerified:true});
             console.log(res.data);
+            console.log(userM);
+
           }
         });
       }, [user, enqueueSnackbar]); 

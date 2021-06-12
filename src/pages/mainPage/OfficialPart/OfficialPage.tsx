@@ -34,7 +34,7 @@ const OfficialPage = (props: PropsUser) => {
     const {enqueueSnackbar} = useSnackbar();
 
     useEffect(() => {
-        getOfficialComplaints(props?.user.Id).then((res) => {
+        getOfficialComplaints(props?.user.id).then((res) => {
           if (res.isError) {
             enqueueSnackbar("Could not get all complaints", { variant: "error" });
           } else {
@@ -50,7 +50,7 @@ const OfficialPage = (props: PropsUser) => {
                         Complaint table:
                     </Typography>
                 </div>
-                <ComplaintsTable id={props?.user.Id} compaints={complaints} setComplaints={setComplaints}/>
+                <ComplaintsTable id={props?.user.id} compaints={complaints} setComplaints={setComplaints}/>
             </div>
         </>
     )

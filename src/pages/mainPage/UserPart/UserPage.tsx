@@ -37,7 +37,7 @@ const UserPage = (props: PropsUser) => {
     const [sentComplaints, setSentComplaints] = useState<Complaint[]>([]);
     const [open, setOpen] = useState<boolean>(false);
     useEffect(() => {
-        getComplaints(props.user?.Id || "").then((res) => {
+        getComplaints(props.user?.id || "").then((res) => {
           if (res.isError) {
             enqueueSnackbar("Could not get all complaints", { variant: "error" });
           } else {
@@ -52,8 +52,7 @@ const UserPage = (props: PropsUser) => {
                 <div>
                     <Button color="primary" 
                             size="large" 
-                            onClick={() => setOpen(prev => !prev)}
-                            disabled={!props.user?.IsVerified}>
+                            onClick={() => setOpen(prev => !prev)}>
                         Send Complaint
                     </Button>
                     <Typography variant='h5' className={classes.subheader}>

@@ -73,7 +73,7 @@ const ComplaintHistoryTable = (props: ComplaintHistoryTableProps) => {
                                     {log.OfficialId}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {log.OffiacialName}
+                                    {log.OffiacialName || 'None'}
                                 </TableCell>
                                 <TableCell align="right">
                                     {log.Status}

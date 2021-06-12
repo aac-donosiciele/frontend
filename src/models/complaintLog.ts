@@ -1,7 +1,7 @@
 export interface ComplaintLog {
     UpdateDate: string,
     OfficialId: string,
-    OffiacialName: string,
+    OffiacialName: string | undefined,
     ComplaintId: string,
     Status: string
 }

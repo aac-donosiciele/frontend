@@ -1,4 +1,4 @@
 export default interface User {
-    Id: string,
-    IsVerified:boolean
+    id: string,
+    isVerified:boolean
 }
