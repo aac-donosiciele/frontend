@@ -66,8 +66,8 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                     props.setComplaints(prev => {
                         let tmp = [...prev];
                         tmp = tmp.map(x => {
-                            if(x.Id===id)
-                                x.Status = 'finished';
+                            if(x.id===id)
+                                x.status = 'finished';
                             return x;
                         })
                         return tmp;
@@ -85,8 +85,8 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                     props.setComplaints(prev => {
                         let tmp = [...prev];
                         tmp = tmp.map(x => {
-                            if(x.Id===id)
-                                x.Status = 'accepted';
+                            if(x.id===id)
+                                x.status = 'accepted';
                             return x;
                         })
                         return tmp;
@@ -104,8 +104,8 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                     props.setComplaints(prev => {
                         let tmp = [...prev];
                         tmp = tmp.map(x => {
-                            if(x.Id===id)
-                                x.Status = 'denied';
+                            if(x.id===id)
+                                x.status = 'denied';
                             return x;
                         })
                         return tmp;
@@ -136,36 +136,36 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
             <TableBody>
                 {props.compaints.map((complaint, index) => {
                     return (<React.Fragment>
-                    <TableRow key={complaint.Id}>
+                    <TableRow key={complaint.id}>
                         <TableCell>
                             <IconButton aria-label="expand row" size="small" onClick={() => handleClickOpen(index)}>
                                 {open[index] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                             </IconButton>
                         </TableCell>
                         <TableCell component="th" scope="row">
-                            {complaint.Id}
+                            {complaint.id}
                         </TableCell>
                         <TableCell align="right">
-                            {complaint.TargetFirstName+ " "+complaint.TargetLastName}
+                            {complaint.targetFirstName+ " "+complaint.targetLastName}
                         </TableCell>
                         <TableCell align="right">
-                            {complaint.Status}
+                            {complaint.status}
                         </TableCell>
                         <TableCell align="right">
-                            {complaint.SendDate}
+                            {complaint.sendDate}
                         </TableCell>
                         <TableCell align="right" colSpan={2}>
-                            {complaint.Status === "active" ?
+                            {complaint.status === "active" ?
                                 <div>
-                                <Button className={classes.blockButton} onClick={() => handleApprove(complaint.Id)}>
+                                <Button className={classes.blockButton} onClick={() => handleApprove(complaint.id)}>
                                                                         Accept
                                 </Button>
-                                <Button className={classes.unblockButton} onClick={() => handleDeny(complaint.Id)}>
+                                <Button className={classes.unblockButton} onClick={() => handleDeny(complaint.id)}>
                                     Deny
                                 </Button>
                                 </div>
                                 :
-                                <Button className={classes.unblockButton} onClick={() => handleFinished(complaint.Id)}>
+                                <Button className={classes.unblockButton} onClick={() => handleFinished(complaint.id)}>
                                     Mark as finished
                                 </Button>}
                         </TableCell>
@@ -174,7 +174,7 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
                             <Collapse in={open[index]} timeout="auto" unmountOnExit>
                                 <Box margin={1} className={classes.child}>
-                                    <ComplaintTableChild complaintId={complaint.Id} />
+                                    <ComplaintTableChild complaintId={complaint.id} />
                                 </Box>
                             </Collapse>
                         </TableCell>

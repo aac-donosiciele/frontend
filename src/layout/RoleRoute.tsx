@@ -14,5 +14,14 @@ const RoleRoute = (props: RoleRoutePros) => {
     }
     return <Route {...props} />
 }
+export interface LoggedProps extends RouteProps {
+    logged:boolean
+}
+export const LoginRoute = (props: LoggedProps) => {
+    if (props.logged) {
+        return <Redirect to={'login'} />
+    }
+    return <Route {...props} />
+}
 
 export default RoleRoute;

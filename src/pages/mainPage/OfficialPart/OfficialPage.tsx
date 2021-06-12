@@ -12,6 +12,7 @@ const useStyles = makeStyles({
         marginTop: '1em',
         width: '100%',
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
     },
     box: {

@@ -1,12 +1,11 @@
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import {
-    BrowserRouter,
-    Switch
+    BrowserRouter, Switch
 } from "react-router-dom";
 import { getRole, getToken, getUserName, RoleFromInt, setRole, setToken, setUserName } from "./api/login/token";
 import { getUser } from "./api/user/getUser";
-import RoleRoute from "./layout/RoleRoute";
+import RoleRoute, { LoginRoute } from "./layout/RoleRoute";
 import Topbar from "./layout/Topbar";
 import { AppUser } from "./models/appUser";
 import User from "./models/user";
@@ -74,7 +73,7 @@ const Pages = () => {
             <Switch>
                 <RoleRoute exact path="/register" component={() => <RegisterPage />} />
                 <RoleRoute exact path="/login" component={() => <LoginPage setUser={setUser} />} />
-                <RoleRoute requiredRole={'user'} actualRole={RoleFromInt(parseInt(user?.role || "-1"))} exact path="/" component={() => <MainPage user={userM}/>} />
+                <LoginRoute logged={userM.id.length<10} exact path="/" component={() => <MainPage user={userM}/>} />
                 <RoleRoute requiredRole={'official'} actualRole={RoleFromInt(parseInt(user?.role || "-1"))} exact path="/official" component={() => <OfficialPage user={userM}/>} />
                 <RoleRoute requiredRole={'admin'} actualRole={RoleFromInt(parseInt(user?.role || "-1"))} exact path="/admin" component={() => <AuthorityAdminPage user={userM}/>} />
             </Switch>

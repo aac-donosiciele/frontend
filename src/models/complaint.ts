@@ -1,9 +1,9 @@
 export default interface Complaint {
-    Id: string,
-    Category: string,
-    TargetFirstName: string,
-    TargetLastName: string,
-    SendDate: string,
-    Note: string,
-    Status: string
+    id: string,
+    category: string,
+    targetFirstName: string,
+    targetLastName: string,
+    sendDate: string,
+    note: string,
+    status: string
 }
