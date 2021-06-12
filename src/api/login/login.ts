@@ -1,4 +1,4 @@
-import { login as loginUrl } from "../apiUrls";
+import { login as loginUrl, user as userUrl } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 
 export interface LoginResponse {
@@ -7,7 +7,7 @@ export interface LoginResponse {
 }
 export const login = async (username: string, password: string): Promise<IApiResponse<LoginResponse>> => {
 
-    let url = process.env.REACT_APP_BACKEND_URL + loginUrl;
+    let url = process.env.REACT_APP_BACKEND_URL +userUrl+ loginUrl;
     type T = IApiResponse<LoginResponse>;
     return fetch(url, {
         method: "POST",
@@ -17,8 +17,8 @@ export const login = async (username: string, password: string): Promise<IApiRes
         }),
         body: JSON.stringify(
             {
-                login: username,
-                password: password,
+                'Login': username,
+                'Password': password,
             })
     }).then<T>(handleResponse).catch<T>(handleError);
 }

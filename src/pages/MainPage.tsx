@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { getUser } from '../api/user/getUser';
 import { useSnackbar } from "notistack";
 import User from '../models/user';
-import UserPage from './UserPage';
+import UserPage from './mainPage/UserPart/UserPage';
 
 const useStyles = makeStyles({
     container: {
@@ -28,23 +28,12 @@ const useStyles = makeStyles({
     },
 });
 
-const MainPage = () => {
+const MainPage = (props: any) => {
     const classes = useStyles();
-    const [user, setUser] = useState<User>()
-    const {enqueueSnackbar} = useSnackbar();
-    useEffect(() => {
-        getUser().then((res) => {
-          if (res.isError) {
-            enqueueSnackbar("Could not get user", { variant: "error" });
-          } else {
-            setUser(res.data);
-          }
-        });
-      }, [enqueueSnackbar]);  
     return (
         <>
             <div className={classes.container}>
-                <UserPage user={user}/>
+                <UserPage user={props.user}/>
             </div>
         </>
     )

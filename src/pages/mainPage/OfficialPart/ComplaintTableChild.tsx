@@ -59,15 +59,6 @@ const ComplaintTableChild = (props: ComplaintTableChildProps) => {
     }, [enqueueSnackbar, props.complaintId]);
 
     return (<React.Fragment>
-        <div className={classes.inlineHeader}>
-            <Typography variant="h6" gutterBottom>
-            Complaint details:
-            </Typography>
-        </div>
-        <div className={classes.information}>
-            <div>Category: {detailedComplaint?.Category}</div>
-            <div>Note: {detailedComplaint?.Note}</div>
-        </div>
         <div>
             <Typography variant="subtitle1" gutterBottom>
             Complaint history:

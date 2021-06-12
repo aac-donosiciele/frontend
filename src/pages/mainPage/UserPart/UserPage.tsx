@@ -2,11 +2,11 @@ import { Button, Dialog, DialogContent, DialogTitle, Typography } from '@materia
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
-import { getComplaints } from '../api/user/getComplaints';
-import Complaint from '../models/complaint';
-import User from '../models/user';
-import ComplaintTable, { Transition } from './mainPage/UserPart/ComplaintsList';
-import CreateComplaint from './mainPage/UserPart/CreateComplaint';
+import { getComplaints } from '../../../api/user/getComplaints';
+import Complaint from '../../../models/complaint';
+import User from '../../../models/user';
+import ComplaintTable, { Transition } from './ComplaintsList';
+import CreateComplaint from './CreateComplaint';
 
 const useStyles = makeStyles({
     container: {
