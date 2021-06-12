@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getComplaints } from '../../../api/user/getComplaints';
 import Complaint from '../../../models/complaint';
-import User from '../../../models/user';
+import { PropsUser } from '../../../Pages';
 import ComplaintTable, { Transition } from './ComplaintsList';
 import CreateComplaint from './CreateComplaint';
 
@@ -29,11 +29,9 @@ const useStyles = makeStyles({
         paddingLeft: '0.5em',
     },
 });
-export interface UserProps {
-    user: User | undefined
-}
 
-const UserPage = (props: UserProps) => {
+
+const UserPage = (props: PropsUser) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const [sentComplaints, setSentComplaints] = useState<Complaint[]>([]);

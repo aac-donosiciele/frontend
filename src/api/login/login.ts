@@ -1,4 +1,4 @@
-import { login as loginUrl, user as userUrl } from "../apiUrls";
+import { login as loginUrl } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 
 export interface LoginResponse {

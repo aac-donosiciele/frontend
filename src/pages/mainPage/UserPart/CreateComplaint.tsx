@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { getCategories } from '../../../api/user/getCategories';
 import { postComplaint } from '../../../api/user/postComplaint';
 import { Category } from '../../../models/category';
-import { UserProps } from './UserPage';
+import { PropsUser } from '../../../Pages';
 
 const useStyles = makeStyles({
     form: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     }
 });
 
-interface CreateComplaintProps extends UserProps {
+interface CreateComplaintProps extends PropsUser {
     setOpen: (value: React.SetStateAction<boolean>) => void;  
 }
 const CreateComplaint = (props: CreateComplaintProps) => {

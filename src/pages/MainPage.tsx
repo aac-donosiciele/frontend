@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { PropsUser } from '../Pages';
 import UserPage from './mainPage/UserPart/UserPage';
 
 const useStyles = makeStyles({
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
     },
 });
 
-const MainPage = (props: any) => {
+const MainPage = (props: PropsUser) => {
     const classes = useStyles();
     return (
         <>

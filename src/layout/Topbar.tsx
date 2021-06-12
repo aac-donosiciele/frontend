@@ -1,9 +1,6 @@
-import { Button } from "@material-ui/core";
-import { AppBar, makeStyles, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Button, makeStyles, Toolbar, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { HasRole, RoleFromInt } from "../api/login/token";
+import { Link, useHistory } from "react-router-dom";
 import { AppUser } from "../models/appUser";
 import AdminTabs from "../pages/mainPage/AdminTabs";
 import OfficialsTabs from "../pages/mainPage/OfficialsTabs";

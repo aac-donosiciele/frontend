@@ -4,6 +4,7 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getOfficialComplaints } from '../../../api/official/getOfficialComplaints';
 import Complaint from '../../../models/complaint';
+import { PropsUser } from '../../../Pages';
 import ComplaintsTable from './ComplaintsTable';
 
 const useStyles = makeStyles({
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
     },
 });
 
-const OfficialPage = (props: any) => {
+const OfficialPage = (props: PropsUser) => {
     const classes = useStyles();
     const [complaints, setComplaints] = useState<Complaint[]>([]);
     const {enqueueSnackbar} = useSnackbar();
@@ -49,7 +50,7 @@ const OfficialPage = (props: any) => {
                         Complaint table:
                     </Typography>
                 </div>
-                <ComplaintsTable id={props?.user.id} compaints={complaints} setComplaints={setComplaints}/>
+                <ComplaintsTable id={props?.user.Id} compaints={complaints} setComplaints={setComplaints}/>
             </div>
         </>
     )

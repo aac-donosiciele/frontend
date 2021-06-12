@@ -16,10 +16,13 @@ import AuthorityAdminPage from "./pages/mainPage/AuthorityAdminPage/AuthorityAdm
 import OfficialPage from "./pages/mainPage/OfficialPart/OfficialPage";
 import RegisterPage from "./pages/RegisterPage";
 
+export interface PropsUser {
+    user:User
+}
+
 const Pages = () => {
     const {enqueueSnackbar} = useSnackbar();
-    const [userM, setUserM] = useState<User>()
-
+    const [userM, setUserM] = useState<User>({Id:'none', IsVerified:true})
     const [user, setUser] = useState<AppUser | undefined>({
         token: getToken(),
         userName: getUserName(),
@@ -54,11 +57,14 @@ const Pages = () => {
         getUser().then((res) => {
           if (res.isError) {
             enqueueSnackbar("Could not get user", { variant: "error" });
+            console.log(res.data);
+
           } else {
-            setUserM(res.data);
+            setUserM(res.data || {Id:'none', IsVerified:true});
+            console.log(res.data);
           }
         });
-      }, [user]); 
+      }, [user, enqueueSnackbar]); 
 
     return (
         <BrowserRouter>
