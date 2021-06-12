@@ -7,7 +7,7 @@ export interface LoginResponse {
 }
 export const login = async (username: string, password: string): Promise<IApiResponse<LoginResponse>> => {
 
-    let url = process.env.REACT_APP_BACKEND_URL +userUrl+loginUrl;
+    let url = process.env.REACT_APP_BACKEND_URL + loginUrl;
     type T = IApiResponse<LoginResponse>;
     return fetch(url, {
         method: "POST",
