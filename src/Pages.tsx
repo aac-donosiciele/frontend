@@ -4,7 +4,7 @@ import {
     BrowserRouter,
     Switch
 } from "react-router-dom";
-import { getRole, getToken, getUserName, setRole, setToken, setUserName } from "./api/login/token";
+import { getRole, getToken, getUserName, RoleFromInt, setRole, setToken, setUserName } from "./api/login/token";
 import { getUser } from "./api/user/getUser";
 import RoleRoute from "./layout/RoleRoute";
 import Topbar from "./layout/Topbar";
@@ -58,7 +58,7 @@ const Pages = () => {
             setUserM(res.data);
           }
         });
-      }, [enqueueSnackbar, user]); 
+      }, [user]); 
 
     return (
         <BrowserRouter>
@@ -66,9 +66,9 @@ const Pages = () => {
             <Switch>
                 <RoleRoute exact path="/register" component={() => <RegisterPage />} />
                 <RoleRoute exact path="/login" component={() => <LoginPage setUser={setUser} />} />
-                <RoleRoute requiredRole={'user'} actualRole={user?.role} exact path="/" component={() => <MainPage user={userM}/>} />
-                <RoleRoute requiredRole={'official'} actualRole={user?.role} exact path="/official" component={() => <OfficialPage user={userM}/>} />
-                <RoleRoute requiredRole={'admin'} actualRole={user?.role} exact path="/admin" component={() => <AuthorityAdminPage user={userM}/>} />
+                <RoleRoute requiredRole={'user'} actualRole={RoleFromInt(parseInt(user?.role || "-1"))} exact path="/" component={() => <MainPage user={userM}/>} />
+                <RoleRoute requiredRole={'official'} actualRole={RoleFromInt(parseInt(user?.role || "-1"))} exact path="/official" component={() => <OfficialPage user={userM}/>} />
+                <RoleRoute requiredRole={'admin'} actualRole={RoleFromInt(parseInt(user?.role || "-1"))} exact path="/admin" component={() => <AuthorityAdminPage user={userM}/>} />
             </Switch>
         </BrowserRouter>
     )

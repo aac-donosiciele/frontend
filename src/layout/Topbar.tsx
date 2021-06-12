@@ -3,7 +3,7 @@ import { AppBar, makeStyles, Toolbar, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { HasRole } from "../api/login/token";
+import { HasRole, RoleFromInt } from "../api/login/token";
 import { AppUser } from "../models/appUser";
 import AdminTabs from "../pages/mainPage/AdminTabs";
 import OfficialsTabs from "../pages/mainPage/OfficialsTabs";
@@ -73,12 +73,13 @@ const Topbar = (props: TopbarProps) => {
                         <Button className={classes.loginButton} onClick={handleLoginClick}>Log in</Button>
                     }
                 </Toolbar>
-                {HasRole(props.user?.role, 'official') && <OfficialsTabs />}
-                {HasRole(props.user?.role, 'admin') && <AdminTabs />}
+                {parseInt(props.user?.role || "-1") > 1 && <AdminTabs />}
+                {parseInt(props.user?.role || "-1") === 1 && <OfficialsTabs />}
+
             </AppBar>
             <Toolbar />
-            {HasRole(props.user?.role, 'official') && <OfficialsTabs />}
-            {HasRole(props.user?.role, 'admin') && <AdminTabs />}
+            {parseInt(props.user?.role || "-1") > 1 && <AdminTabs />}
+            {parseInt(props.user?.role || "-1") === 1 && <OfficialsTabs />}
 
 
         </div>
