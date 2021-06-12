@@ -1,9 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { getUser } from '../api/user/getUser';
-import { useSnackbar } from "notistack";
-import User from '../models/user';
 import UserPage from './mainPage/UserPart/UserPage';
 
 const useStyles = makeStyles({

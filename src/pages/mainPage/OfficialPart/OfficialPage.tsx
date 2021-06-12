@@ -49,7 +49,7 @@ const OfficialPage = (props: any) => {
                         Complaint table:
                     </Typography>
                 </div>
-                <ComplaintsTable compaints={complaints} setComplaints={setComplaints}/>
+                <ComplaintsTable id={props?.user.id} compaints={complaints} setComplaints={setComplaints}/>
             </div>
         </>
     )

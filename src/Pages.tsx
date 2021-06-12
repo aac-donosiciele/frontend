@@ -49,6 +49,8 @@ const Pages = () => {
     }, [user])
 
     useEffect(() => {
+        if(user === undefined || user?.userName === null)
+            return;
         getUser().then((res) => {
           if (res.isError) {
             enqueueSnackbar("Could not get user", { variant: "error" });
