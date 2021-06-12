@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { getUser } from '../api/user/getUser';
+import { useSnackbar } from "notistack";
 import User from '../models/user';
 import UserPage from './UserPage';
 
@@ -30,7 +31,7 @@ const useStyles = makeStyles({
 const MainPage = () => {
     const classes = useStyles();
     const [user, setUser] = useState<User>()
-
+    const {enqueueSnackbar} = useSnackbar();
     useEffect(() => {
         getUser().then((res) => {
           if (res.isError) {
@@ -39,7 +40,7 @@ const MainPage = () => {
             setUser(res.data);
           }
         });
-      }, []);  
+      }, [enqueueSnackbar]);  
     return (
         <>
             <div className={classes.container}>
@@ -51,6 +52,3 @@ const MainPage = () => {
 
 export default MainPage;
 
-function enqueueSnackbar(arg0: string, arg1: { variant: string; }) {
-    throw new Error('Function not implemented.');
-}

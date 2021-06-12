@@ -61,7 +61,7 @@ const Topbar = (props: TopbarProps) => {
                 <Toolbar className={classes.toolbar}>
                     <Typography variant="h6" display={"inline"} >
                         <Link to={"/"} className={classes.logo} >
-                            Bikes
+                            Donos Online
                         </Link>
                     </Typography>
                     {props.user?.userName ?
