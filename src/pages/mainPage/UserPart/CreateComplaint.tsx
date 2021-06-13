@@ -48,6 +48,7 @@ const CreateComplaint = (props: CreateComplaintProps) => {
 
     const sendClick = (e: any) => {
         e.preventDefault();
+        console.log(category);
         if(category < 0)
         {
             enqueueSnackbar("Category cannot be null", { variant: "info" })
@@ -91,7 +92,7 @@ const CreateComplaint = (props: CreateComplaintProps) => {
             options={categories}
             getOptionLabel={(option) => option.title}
             style={{ width: 300 }}
-            onChange={(object, values) => setCategory(values?.id || -1)}
+            onChange={(object, values) => setCategory(values?.id===undefined ? -1 : values?.id)}
             renderInput={(params) => <TextField {...params} label="Category" variant="outlined" 
             />}
         />

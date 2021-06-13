@@ -35,6 +35,8 @@ const OfficialPage = (props: PropsUser) => {
     const {enqueueSnackbar} = useSnackbar();
 
     useEffect(() => {
+        if(props?.user.id === 'none')
+            return;
         getOfficialComplaints(props?.user.id).then((res) => {
           if (res.isError) {
             enqueueSnackbar("Could not get all complaints", { variant: "error" });

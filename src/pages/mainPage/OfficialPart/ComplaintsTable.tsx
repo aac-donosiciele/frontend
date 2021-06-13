@@ -17,7 +17,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
-import { acceptComplaint, denyComplaint, finishedComplaint } from "../../../api/official/postOfficialComplaint";
+import { denyComplaint, finishedComplaint } from "../../../api/official/postOfficialComplaint";
 import Complaint from "../../../models/complaint";
 import ComplaintTableChild from "./ComplaintTableChild";
 
@@ -67,26 +67,7 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                         let tmp = [...prev];
                         tmp = tmp.map(x => {
                             if(x.id===id)
-                                x.status = 'finished';
-                            return x;
-                        })
-                        return tmp;
-                    });
-            }
-          });
-    };
-
-    const handleApprove = (id: string) => {
-        acceptComplaint(props.id, id).then((res) => {
-            if (res.isError) {
-              enqueueSnackbar("Could not get all complaints", { variant: "error" });
-            } else {
-                if(res.responseCode===204)
-                    props.setComplaints(prev => {
-                        let tmp = [...prev];
-                        tmp = tmp.map(x => {
-                            if(x.id===id)
-                                x.status = 'accepted';
+                                x.status = 'Finished';
                             return x;
                         })
                         return tmp;
@@ -105,7 +86,7 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                         let tmp = [...prev];
                         tmp = tmp.map(x => {
                             if(x.id===id)
-                                x.status = 'denied';
+                                x.status = 'Rejected';
                             return x;
                         })
                         return tmp;
@@ -128,6 +109,7 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                     <TableCell />
                     <TableCell align="left">Id</TableCell>
                     <TableCell align="right">Target</TableCell>
+                    <TableCell align="right">Note</TableCell>
                     <TableCell align="right">Status</TableCell>
                     <TableCell align="right">Send date</TableCell>
                     <TableCell align="center" colSpan={2}>Actions</TableCell>
@@ -149,29 +131,31 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                             {complaint.targetFirstName+ " "+complaint.targetLastName}
                         </TableCell>
                         <TableCell align="right">
+                            {complaint.note}
+                        </TableCell>
+                        <TableCell align="right">
                             {complaint.status}
                         </TableCell>
                         <TableCell align="right">
                             {complaint.sendDate}
                         </TableCell>
                         <TableCell align="right" colSpan={2}>
-                            {complaint.status === "active" ?
                                 <div>
-                                <Button className={classes.blockButton} onClick={() => handleApprove(complaint.id)}>
-                                                                        Accept
-                                </Button>
-                                <Button className={classes.unblockButton} onClick={() => handleDeny(complaint.id)}>
-                                    Deny
-                                </Button>
+                                    <Button className={classes.unblockButton} 
+                                    onClick={() => handleFinished(complaint.id)}
+                                    disabled={complaint.status==='Finished' || complaint.status==='Rejected'}>
+                                        Mark as finished
+                                    </Button>
+                                    <Button className={classes.blockButton} 
+                                    onClick={() => handleDeny(complaint.id)}
+                                    disabled={complaint.status==='Finished' || complaint.status==='Rejected'}>
+                                        Reject
+                                    </Button>
                                 </div>
-                                :
-                                <Button className={classes.unblockButton} onClick={() => handleFinished(complaint.id)}>
-                                    Mark as finished
-                                </Button>}
                         </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
                             <Collapse in={open[index]} timeout="auto" unmountOnExit>
                                 <Box margin={1} className={classes.child}>
                                     <ComplaintTableChild complaintId={complaint.id} />

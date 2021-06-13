@@ -78,7 +78,6 @@ export interface ComplaintTableProps {
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                 <TableRow>
-                    <TableCell>Donos</TableCell>
                     <TableCell align="right" className={classes.widerCell}>ID</TableCell>
                     <TableCell align="right" className={classes.widerCell}>Target</TableCell>
                     <TableCell align="right" className={classes.widestCell}>Note</TableCell>
@@ -100,7 +99,7 @@ export interface ComplaintTableProps {
                         {comp.status}
                     </TableCell>
                     <TableCell align="right">
-                        <Button className={classes.blockButton} disabled={comp.status!=='pending'} onClick={()=>clickCancel(comp.id)}>
+                        <Button className={classes.blockButton} disabled={comp.status!=='Pending'} onClick={()=>clickCancel(comp.id)}>
                             Cancel
                         </Button>
                     </TableCell>
