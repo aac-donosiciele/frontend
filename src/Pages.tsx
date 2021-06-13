@@ -53,6 +53,8 @@ const Pages = () => {
     useEffect(() => {
         if(user === undefined || user?.userName === null)
             return;
+        if(userM.id !== 'none')
+            return;
         getUser().then((res) => {
           if (res.isError) {
             enqueueSnackbar("Could not get user", { variant: "error" });
@@ -60,12 +62,9 @@ const Pages = () => {
 
           } else {
             setUserM(res.data || {id:'none', isVerified:true});
-            console.log(res.data);
-            console.log(userM);
-
           }
         });
-      }, [user, enqueueSnackbar]); 
+      }, [user, userM, enqueueSnackbar]); 
 
     return (
         <BrowserRouter>
