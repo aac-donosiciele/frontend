@@ -1,5 +1,4 @@
 import { Users } from "../../models/users";
-import { official } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 import { getToken } from "../login/token";
 
