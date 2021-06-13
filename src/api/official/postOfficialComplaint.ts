@@ -3,7 +3,7 @@ import { officialComplaintUpdate } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 import { getToken } from "../login/token";
 
-const postOfficialComplaint = async (complaintId: string, status: Number): Promise<IApiResponse<Http2ServerResponse>> => {
+const postOfficialComplaint = async (officialId: string, complaintId: string, status: Number): Promise<IApiResponse<Http2ServerResponse>> => {
 
     let url = process.env.REACT_APP_BACKEND_URL + officialComplaintUpdate;
     type T = IApiResponse<Http2ServerResponse>;
@@ -15,12 +15,13 @@ const postOfficialComplaint = async (complaintId: string, status: Number): Promi
             'Authorization': getToken(),
         }),
         body: JSON.stringify({
+            officialId: officialId,
             complaintId: complaintId,
             status: status
         })
     }).then<T>(handleResponse).catch<T>(handleError);
 }
 
-export const acceptComplaint = async (complaintId: string) => postOfficialComplaint(complaintId, 4);
-export const denyComplaint = async (complaintId: string) => postOfficialComplaint(complaintId, 3);
-export const finishedComplaint = async (complaintId: string) => postOfficialComplaint(complaintId, 5);
+export const acceptComplaint = async (officialId: string, complaintId: string) => postOfficialComplaint(officialId,complaintId, 4);
+export const denyComplaint = async (officialId: string, complaintId: string) => postOfficialComplaint(officialId,complaintId, 3);
+export const finishedComplaint = async (officialId: string, complaintId: string) => postOfficialComplaint(officialId,complaintId, 5);

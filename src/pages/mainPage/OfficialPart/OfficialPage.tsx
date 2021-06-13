@@ -1,12 +1,18 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { getOfficialComplaints } from '../../../api/official/getOfficialComplaints';
+import Complaint from '../../../models/complaint';
+import { PropsUser } from '../../../Pages';
+import ComplaintsTable from './ComplaintsTable';
 
 const useStyles = makeStyles({
     container: {
         marginTop: '1em',
         width: '100%',
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
     },
     box: {
@@ -23,22 +29,31 @@ const useStyles = makeStyles({
     },
 });
 
-const OfficialPage = () => {
+const OfficialPage = (props: PropsUser) => {
     const classes = useStyles();
+    const [complaints, setComplaints] = useState<Complaint[]>([]);
+    const {enqueueSnackbar} = useSnackbar();
 
+    useEffect(() => {
+        if(props?.user.id === 'none')
+            return;
+        getOfficialComplaints(props?.user.id).then((res) => {
+          if (res.isError) {
+            enqueueSnackbar("Could not get all complaints", { variant: "error" });
+          } else {
+            setComplaints(res.data || []);
+          }
+        });
+      }, [enqueueSnackbar, props.user]);  
     return (
         <>
             <div className={classes.container}>
                 <div className={classes.box}>
                     <Typography variant='h5' className={classes.subheader}>
-                        All stations:
+                        Complaint table:
                     </Typography>
                 </div>
-                <div className={classes.boxWider}>
-                <Typography variant='h5' className={classes.subheader}>
-                        All malfunctions:
-                    </Typography>
-                </div>
+                <ComplaintsTable id={props?.user.id} compaints={complaints} setComplaints={setComplaints}/>
             </div>
         </>
     )

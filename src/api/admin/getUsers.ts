@@ -1,12 +1,11 @@
-import Complaint from "../../models/complaint";
-import { official } from "../apiUrls";
+import { Users } from "../../models/users";
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 import { getToken } from "../login/token";
 
-export const getOfficialComplaints = async (officialId: string): Promise<IApiResponse<Complaint[]>> => {
+export const getUsers = async (): Promise<IApiResponse<Users[]>> => {
 
-    let url = process.env.REACT_APP_BACKEND_URL + official+officialId+'/complaints';
-    type T = IApiResponse<Complaint[]>;
+    let url = process.env.REACT_APP_BACKEND_URL + 'users';
+    type T = IApiResponse<Users[]>;
     return fetch(url, {
         method: "GET",
         headers: new Headers({

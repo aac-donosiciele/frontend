@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { getCategories } from '../../../api/user/getCategories';
 import { postComplaint } from '../../../api/user/postComplaint';
 import { Category } from '../../../models/category';
-import { UserProps } from '../../UserPage';
+import { PropsUser } from '../../../Pages';
 
 const useStyles = makeStyles({
     form: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     }
 });
 
-interface CreateComplaintProps extends UserProps {
+interface CreateComplaintProps extends PropsUser {
     setOpen: (value: React.SetStateAction<boolean>) => void;  
 }
 const CreateComplaint = (props: CreateComplaintProps) => {
@@ -48,13 +48,14 @@ const CreateComplaint = (props: CreateComplaintProps) => {
 
     const sendClick = (e: any) => {
         e.preventDefault();
+        console.log(category);
         if(category < 0)
         {
             enqueueSnackbar("Category cannot be null", { variant: "info" })
             return;
         }
          postComplaint({
-             SenderId: props.user?.Id || "",
+             SenderId: props.user?.id || "",
              TargetFirstName: firstName,
              TargetLastName: lastName,
              Note: note,
@@ -91,7 +92,7 @@ const CreateComplaint = (props: CreateComplaintProps) => {
             options={categories}
             getOptionLabel={(option) => option.title}
             style={{ width: 300 }}
-            onChange={(object, values) => setCategory(values?.id || -1)}
+            onChange={(object, values) => setCategory(values?.id===undefined ? -1 : values?.id)}
             renderInput={(params) => <TextField {...params} label="Category" variant="outlined" 
             />}
         />

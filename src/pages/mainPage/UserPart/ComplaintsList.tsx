@@ -78,7 +78,6 @@ export interface ComplaintTableProps {
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                 <TableRow>
-                    <TableCell>Malfunction</TableCell>
                     <TableCell align="right" className={classes.widerCell}>ID</TableCell>
                     <TableCell align="right" className={classes.widerCell}>Target</TableCell>
                     <TableCell align="right" className={classes.widestCell}>Note</TableCell>
@@ -88,19 +87,19 @@ export interface ComplaintTableProps {
                 </TableHead>
                 <TableBody>
                 {props.complaints.map((comp) => (
-                    <TableRow key={comp.Id}>
+                    <TableRow key={comp.id}>
                     <TableCell component="th" scope="row">
-                        {comp.Id}
+                        {comp.id}
                     </TableCell>
-                    <TableCell align="right">{comp.TargetFirstName + " " + comp.TargetLastName}</TableCell>
+                    <TableCell align="right">{comp.targetFirstName + " " + comp.targetLastName}</TableCell>
                     <TableCell align="right">
-                        {comp.Note}
+                        {comp.note}
                     </TableCell>
                     <TableCell align="center">
-                        {comp.Status}
+                        {comp.status}
                     </TableCell>
                     <TableCell align="right">
-                        <Button className={classes.blockButton} disabled={comp.Status!=='pending'} onClick={()=>clickCancel(comp.Id)}>
+                        <Button className={classes.blockButton} disabled={comp.status!=='Pending'} onClick={()=>clickCancel(comp.id)}>
                             Cancel
                         </Button>
                     </TableCell>

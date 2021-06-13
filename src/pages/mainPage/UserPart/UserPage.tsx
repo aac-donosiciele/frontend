@@ -2,11 +2,11 @@ import { Button, Dialog, DialogContent, DialogTitle, Typography } from '@materia
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
-import { getComplaints } from '../api/user/getComplaints';
-import Complaint from '../models/complaint';
-import User from '../models/user';
-import ComplaintTable, { Transition } from './mainPage/UserPart/ComplaintsList';
-import CreateComplaint from './mainPage/UserPart/CreateComplaint';
+import { getComplaints } from '../../../api/user/getComplaints';
+import Complaint from '../../../models/complaint';
+import { PropsUser } from '../../../Pages';
+import ComplaintTable, { Transition } from './ComplaintsList';
+import CreateComplaint from './CreateComplaint';
 
 const useStyles = makeStyles({
     container: {
@@ -29,17 +29,15 @@ const useStyles = makeStyles({
         paddingLeft: '0.5em',
     },
 });
-export interface UserProps {
-    user: User | undefined
-}
 
-const UserPage = (props: UserProps) => {
+
+const UserPage = (props: PropsUser) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const [sentComplaints, setSentComplaints] = useState<Complaint[]>([]);
     const [open, setOpen] = useState<boolean>(false);
     useEffect(() => {
-        getComplaints(props.user?.Id || "").then((res) => {
+        getComplaints(props.user?.id || "").then((res) => {
           if (res.isError) {
             enqueueSnackbar("Could not get all complaints", { variant: "error" });
           } else {
@@ -54,8 +52,7 @@ const UserPage = (props: UserProps) => {
                 <div>
                     <Button color="primary" 
                             size="large" 
-                            onClick={() => setOpen(prev => !prev)}
-                            disabled={!props.user?.IsVerified}>
+                            onClick={() => setOpen(prev => !prev)}>
                         Send Complaint
                     </Button>
                     <Typography variant='h5' className={classes.subheader}>

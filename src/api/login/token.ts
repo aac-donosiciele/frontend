@@ -45,6 +45,19 @@ function RoleToInt(role: string | undefined | null) {
     }
 }
 
+export function RoleFromInt(role: number | undefined | null) {
+    switch (role) {
+        case 0:
+            return 'user';
+        case 1:
+            return 'official';
+        case 2:
+            return 'admin';
+        default:
+            return 'error';
+    }
+}
+
 export function HasRole(userRole: string | undefined | null, requiredRole: string | undefined | null) {
     return RoleToInt(userRole) >= RoleToInt(requiredRole)
 }

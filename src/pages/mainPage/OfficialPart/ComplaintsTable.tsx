@@ -17,7 +17,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
-import { finishedComplaint } from "../../../api/official/postOfficialComplaint";
+import { denyComplaint, finishedComplaint } from "../../../api/official/postOfficialComplaint";
 import Complaint from "../../../models/complaint";
 import ComplaintTableChild from "./ComplaintTableChild";
 
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface ComplaintsTableProps {
+    id: string,
     compaints: Complaint[];
     setComplaints: (value: React.SetStateAction<Complaint[]>) => void;
 }
@@ -57,16 +58,16 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
     const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState<boolean[]>([]);
     const handleFinished = (id: string) => {
-        finishedComplaint(id).then((res) => {
+        finishedComplaint(props.id, id).then((res) => {
             if (res.isError) {
               enqueueSnackbar("Could not get all complaints", { variant: "error" });
             } else {
-                if(res.responseCode==204)
+                if(res.responseCode===204)
                     props.setComplaints(prev => {
                         let tmp = [...prev];
                         tmp = tmp.map(x => {
-                            if(x.Id===id)
-                                x.Status = 'finished';
+                            if(x.id===id)
+                                x.status = 'Finished';
                             return x;
                         })
                         return tmp;
@@ -75,12 +76,23 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
           });
     };
 
-    const handleApprove = (id: string) => {
-
-    };
-
     const handleDeny = (id: string) => {
-
+        denyComplaint(props.id, id).then((res) => {
+            if (res.isError) {
+              enqueueSnackbar("Could not get all complaints", { variant: "error" });
+            } else {
+                if(res.responseCode===204)
+                    props.setComplaints(prev => {
+                        let tmp = [...prev];
+                        tmp = tmp.map(x => {
+                            if(x.id===id)
+                                x.status = 'Rejected';
+                            return x;
+                        })
+                        return tmp;
+                    });
+            }
+          });
     };
     const handleClickOpen = (index: number) => {
 
@@ -97,6 +109,7 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
                     <TableCell />
                     <TableCell align="left">Id</TableCell>
                     <TableCell align="right">Target</TableCell>
+                    <TableCell align="right">Note</TableCell>
                     <TableCell align="right">Status</TableCell>
                     <TableCell align="right">Send date</TableCell>
                     <TableCell align="center" colSpan={2}>Actions</TableCell>
@@ -105,45 +118,47 @@ const ComplaintsTable = (props: ComplaintsTableProps) => {
             <TableBody>
                 {props.compaints.map((complaint, index) => {
                     return (<React.Fragment>
-                    <TableRow key={complaint.Id}>
+                    <TableRow key={complaint.id}>
                         <TableCell>
                             <IconButton aria-label="expand row" size="small" onClick={() => handleClickOpen(index)}>
                                 {open[index] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                             </IconButton>
                         </TableCell>
                         <TableCell component="th" scope="row">
-                            {complaint.Id}
+                            {complaint.id}
                         </TableCell>
                         <TableCell align="right">
-                            {complaint.TargetFirstName+ " "+complaint.TargetLastName}
+                            {complaint.targetFirstName+ " "+complaint.targetLastName}
                         </TableCell>
                         <TableCell align="right">
-                            {complaint.Status}
+                            {complaint.note}
                         </TableCell>
                         <TableCell align="right">
-                            {complaint.SendDate}
+                            {complaint.status}
+                        </TableCell>
+                        <TableCell align="right">
+                            {complaint.sendDate}
                         </TableCell>
                         <TableCell align="right" colSpan={2}>
-                            {complaint.Status === "active" ?
                                 <div>
-                                <Button className={classes.blockButton} onClick={() => handleApprove(complaint.Id)}>
-                                                                        Accept
-                                </Button>
-                                <Button className={classes.unblockButton} onClick={() => handleDeny(complaint.Id)}>
-                                    Deny
-                                </Button>
+                                    <Button className={classes.unblockButton} 
+                                    onClick={() => handleFinished(complaint.id)}
+                                    disabled={complaint.status==='Finished' || complaint.status==='Rejected'}>
+                                        Mark as finished
+                                    </Button>
+                                    <Button className={classes.blockButton} 
+                                    onClick={() => handleDeny(complaint.id)}
+                                    disabled={complaint.status==='Finished' || complaint.status==='Rejected'}>
+                                        Reject
+                                    </Button>
                                 </div>
-                                :
-                                <Button className={classes.unblockButton} onClick={() => handleFinished(complaint.Id)}>
-                                    Mark as finished
-                                </Button>}
                         </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
                             <Collapse in={open[index]} timeout="auto" unmountOnExit>
                                 <Box margin={1} className={classes.child}>
-                                    <ComplaintTableChild complaintId={complaint.Id} />
+                                    <ComplaintTableChild complaintId={complaint.id} />
                                 </Box>
                             </Collapse>
                         </TableCell>

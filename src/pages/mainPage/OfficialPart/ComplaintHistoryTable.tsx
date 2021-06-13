@@ -42,8 +42,8 @@ export interface ComplaintHistoryTableProps {
     complaints: ComplaintLog[];
 }
 const sortLambda = (a: ComplaintLog, b:ComplaintLog) => {
-        if (a.UpdateDate < b.UpdateDate) return -1;
-        if (a.UpdateDate > b.UpdateDate) return 1;
+        if (a.updateDate < b.updateDate) return -1;
+        if (a.updateDate > b.updateDate) return 1;
         return 0;
 }
 const ComplaintHistoryTable = (props: ComplaintHistoryTableProps) => {
@@ -67,16 +67,16 @@ const ComplaintHistoryTable = (props: ComplaintHistoryTableProps) => {
                         return (<React.Fragment>
                             <TableRow>
                                 <TableCell component="th" scope="row">
-                                    {log.UpdateDate}
+                                    {log.updateDate}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {log.OfficialId}
+                                    {log.officialId}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {log.OffiacialName}
+                                    {log.offiacialName || 'None'}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {log.Status}
+                                    {log.status}
                                 </TableCell>
                             </TableRow>
                         </React.Fragment>

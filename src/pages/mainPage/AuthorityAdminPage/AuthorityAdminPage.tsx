@@ -1,6 +1,10 @@
-import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { getUsers } from '../../../api/admin/getUsers';
+import { Users } from '../../../models/users';
+import { PropsUser } from '../../../Pages';
+import UsersTable from './UsersTable';
 
 const useStyles = makeStyles({
     container: {
@@ -23,22 +27,26 @@ const useStyles = makeStyles({
     },
 });
 
-const AuthorityAdminPage = () => {
+const AuthorityAdminPage = (props: PropsUser) => {
     const classes = useStyles();
+    const [users, setUsers] = useState<Users[]>([]);
+    const {enqueueSnackbar} = useSnackbar();
 
+    useEffect(() => {
+        if(props?.user.id === 'none')
+            return;
+        getUsers().then((res) => {
+          if (res.isError) {
+            enqueueSnackbar("Could not get all users", { variant: "error" });
+          } else {
+            setUsers(res.data || []);
+          }
+        });
+      }, [enqueueSnackbar, props.user]);  
     return (
         <>
             <div className={classes.container}>
-                <div className={classes.box}>
-                    <Typography variant='h5' className={classes.subheader}>
-                        All stations:
-                    </Typography>
-                </div>
-                <div className={classes.boxWider}>
-                <Typography variant='h5' className={classes.subheader}>
-                        All malfunctions:
-                    </Typography>
-                </div>
+                <UsersTable users={users} setUsers={setUsers} id={props.user.id}/>
             </div>
         </>
     )
